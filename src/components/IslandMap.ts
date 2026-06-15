@@ -135,8 +135,9 @@ export class IslandMap {
         </defs>
 
         <!-- Static full-bleed background (no parallax, so edges never gap) -->
+        <!-- Horizon sits high (y=102) so all three islands rest IN the sea -->
         <rect width="400" height="400" fill="url(#sea-grad)" />
-        <rect width="400" height="150" fill="url(#sky-grad)" />
+        <rect width="400" height="102" fill="url(#sky-grad)" />
 
         <!-- PARALLAX: sky layer (sun + gulls) -->
         <g class="plx" data-depth="0.5" style="pointer-events:none">
@@ -164,7 +165,7 @@ export class IslandMap {
         <!-- PARALLAX: sea decoration (halos, caustics, waves, sailboat) -->
         <g class="plx" data-depth="0.32" style="pointer-events:none">
           <ellipse cx="128" cy="298" rx="92" ry="46" fill="#BFF0FF" opacity="0.5" />
-          <ellipse cx="223" cy="120" rx="84" ry="40" fill="#BFF0FF" opacity="0.5" />
+          <ellipse cx="223" cy="126" rx="80" ry="20" fill="#BFF0FF" opacity="0.5" />
           <ellipse cx="305" cy="298" rx="86" ry="44" fill="#BFF0FF" opacity="0.5" />
           <g class="waves" stroke="#EAF9FF" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.8">
             <path d="M 36,150 q 10,-6 20,0 t 20,0" />
