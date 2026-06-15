@@ -38,6 +38,10 @@ export class ActivityRenderer {
   private selectedMaterialIndex: number | null = null;
   private materialPlacements: Record<number, string> = {}; // materialIndex -> binId
 
+  // Quiz state
+  private selectedOption: number | null = null;
+  private quizRevealed: boolean = false;
+
   constructor(parent: HTMLElement) {
     this.container = document.createElement('div');
     this.container.className = 'quest-workspace';
@@ -64,8 +68,13 @@ export class ActivityRenderer {
     this.sunAngle = 45;
     this.selectedMaterialIndex = null;
     this.materialPlacements = {};
+    this.selectedOption = null;
+    this.quizRevealed = false;
 
     switch (quest.type) {
+      case 'quiz':
+        this.renderQuiz(challenge);
+        break;
       case 'inference':
         this.renderInference(challenge);
         break;
@@ -96,6 +105,34 @@ export class ActivityRenderer {
       default:
         this.container.innerHTML = `<p>Quest type not recognized.</p>`;
     }
+  }
+
+  // ================= QUIZ (multiple choice) =================
+  private renderQuiz(c: any) {
+    const labels = ['A', 'B', 'C', 'D', 'E', 'F'];
+    let html = `<div class="quiz-options" id="quiz-options">`;
+    c.options.forEach((opt: string, idx: number) => {
+      html += `
+        <button class="quiz-option" data-opt="${idx}">
+          <span class="quiz-option-letter">${labels[idx]}</span>
+          <span class="quiz-option-text">${opt}</span>
+        </button>
+      `;
+    });
+    html += `</div>`;
+    this.container.innerHTML = html;
+
+    const optionEls = this.container.querySelectorAll('.quiz-option');
+    optionEls.forEach(el => {
+      el.addEventListener('click', () => {
+        if (this.quizRevealed) return; // locked once answered correctly
+        optionEls.forEach(o => o.classList.remove('quiz-option-selected'));
+        el.classList.add('quiz-option-selected');
+        this.selectedOption = parseInt(el.getAttribute('data-opt') || '0');
+        // clear any previous wrong markings on re-selection
+        optionEls.forEach(o => o.classList.remove('quiz-option-wrong'));
+      });
+    });
   }
 
   // ================= INFERENCE DETECTIVE =================
@@ -909,6 +946,27 @@ export class ActivityRenderer {
     let feedback = '';
 
     switch (this.currentType) {
+      case 'quiz': {
+        const optionEls = this.container.querySelectorAll('.quiz-option');
+        if (this.selectedOption === null) {
+          correct = false;
+          feedback = "Tap one of the answers first, then check it.";
+          break;
+        }
+        correct = this.selectedOption === c.correctIndex;
+        score = correct ? 100 : 0;
+        const chosenEl = optionEls[this.selectedOption];
+        if (correct) {
+          this.quizRevealed = true;
+          optionEls.forEach(o => o.classList.add('quiz-option-locked'));
+          chosenEl?.classList.add('quiz-option-correct');
+          feedback = "Correct! Well reasoned.";
+        } else {
+          chosenEl?.classList.add('quiz-option-wrong');
+          feedback = "Not quite — re-read the question and try another answer. Tap the Hint button if you'd like a clue.";
+        }
+        break;
+      }
       case 'inference': {
         const selected = [...this.selectedSentenceIndices].sort();
         const expected = [...c.correctIndices].sort();

@@ -52,13 +52,27 @@ export class QuestOverlay {
 
       <!-- Quest body -->
       <div class="quest-body">
+        <!-- Topic label (friendly, no codes) -->
+        <div class="quest-topic-tag">
+          <span class="quest-topic-name">${this.quest.topic || this.quest.title}</span>
+        </div>
+
+        <!-- Learn-first study note (collapsible) -->
+        <div class="study-note" id="quest-study-note">
+          <button class="study-note-toggle" id="btn-study-toggle">
+            <span>📖 Learn first</span>
+            <span id="study-note-chevron">▾</span>
+          </button>
+          <div class="study-note-body" id="study-note-body">${this.quest.studyNote || ''}</div>
+        </div>
+
         <div class="quest-question" id="quest-question-text">
           Question goes here?
         </div>
-        
+
         <!-- Interactive Workspace -->
         <div id="quest-workspace-anchor" style="flex:1; display:flex; flex-direction:column; justify-content:center;"></div>
-        
+
         <!-- Hint Panel -->
         <div class="hint-panel" id="quest-hint-panel">
           💡 Lumi's Tip: Hint text
@@ -131,6 +145,21 @@ export class QuestOverlay {
       hintPanel.classList.toggle('hint-panel-visible');
     });
 
+    // Study-note "Learn first" collapsible (starts open)
+    const studyNote = this.container.querySelector('#quest-study-note') as HTMLDivElement;
+    const studyToggle = this.container.querySelector('#btn-study-toggle') as HTMLButtonElement;
+    const chevron = this.container.querySelector('#study-note-chevron') as HTMLSpanElement;
+    if (!this.quest.studyNote) {
+      studyNote.style.display = 'none';
+    } else {
+      studyNote.classList.add('study-note-open');
+      studyToggle?.addEventListener('click', () => {
+        sounds.playPop();
+        studyNote.classList.toggle('study-note-open');
+        if (chevron) chevron.innerText = studyNote.classList.contains('study-note-open') ? '▾' : '▸';
+      });
+    }
+
     const submitBtn = this.container.querySelector('#btn-quest-submit') as HTMLButtonElement;
     submitBtn.addEventListener('click', () => {
       this.handleSubmit();
@@ -174,8 +203,12 @@ export class QuestOverlay {
         origin: { x: 1 }
       });
 
+      const challenge = this.quest.challenges[this.currentStep];
+      const explainHtml = challenge && challenge.explanation
+        ? `<div class="feedback-explain">📘 <strong>Why:</strong> ${challenge.explanation}</div>`
+        : '';
       feedbackBanner.className = 'feedback-banner feedback-correct';
-      feedbackBanner.innerHTML = `🌟 ${result.feedback}`;
+      feedbackBanner.innerHTML = `🌟 ${result.feedback}${explainHtml}`;
 
       submitBtn.innerText = this.currentStep + 1 < this.totalSteps ? 'Next Step' : 'Finish Quest';
       submitBtn.className = 'btn-primary';
@@ -253,7 +286,7 @@ export class QuestOverlay {
 
       <div style="display:flex; flex-direction:column; align-items:center; gap:16px;">
         <p style="font-size:0.95rem; max-width:320px; font-weight:600; line-height:1.5;">
-          Spectacular exploring, Vera! You claimed <strong>+${saveResult.xpReward} XP</strong> and helped ${companionName} learn more about the island!
+          Great work, Vera! You earned <strong>+${saveResult.xpReward} XP</strong> and made real progress in <strong>${this.quest.topic}</strong>. ${companionName} is proud of you!
         </p>
         ${stickerDetails}
         ${badgeDetails}

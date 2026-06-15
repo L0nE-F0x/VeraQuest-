@@ -1,5 +1,6 @@
 import { gameState } from '../game/state';
 import { sounds } from '../utils/sounds';
+import { QUESTS } from '../data/topics';
 
 interface StickerDef {
   id: string;
@@ -13,91 +14,36 @@ export class StickerBook {
   private container: HTMLDivElement;
   private modal: HTMLDivElement | null = null;
 
-  // Full sticker catalog definition
+  // Sticker catalog is built directly from the quest list so it always stays in
+  // sync with the curriculum content, plus the three subject "mastery" badges.
   private stickersList: StickerDef[] = [
-    {
-      id: 'sticker_magnifier',
-      name: 'Inference Investigator',
-      emoji: '🕵️‍♀️',
-      description: 'You have an amazing eye for details and can read between the lines like a true detective!',
-      unlockRequirement: 'Complete Inference Detective quest'
-    },
-    {
-      id: 'sticker_anchor',
-      name: 'Syntax Captain',
-      emoji: '⚓',
-      description: 'You sail through complex sentences, anchoring your subclauses and phrases with perfect grammar!',
-      unlockRequirement: 'Complete Sentence Builder quest'
-    },
-    {
-      id: 'sticker_book',
-      name: 'Word Sorcerer',
-      emoji: '📖',
-      description: 'You recognize similes, metaphors, and personification, weaving magic with figurative language!',
-      unlockRequirement: 'Complete Figurative Island Match quest'
-    },
-    {
-      id: 'sticker_pizza',
-      name: 'Fraction Chef',
-      emoji: '🍕',
-      description: 'You can divide pizzas and toppings into perfect fractional slices. Gulls are stuffed and happy!',
-      unlockRequirement: 'Complete Fraction Pizza Party quest'
-    },
-    {
-      id: 'sticker_gem',
-      name: 'Geometry Gemologist',
-      emoji: '💎',
-      description: 'You sort lines, angles, and polygons effortlessly, classifying beautiful geometry shapes!',
-      unlockRequirement: 'Complete Geometry Gem Sort quest'
-    },
-    {
-      id: 'sticker_scale',
-      name: 'Scale Balance Master',
-      emoji: '⚖️',
-      description: 'You understand grams, kilograms, milliliters, and liters, balancing weights with ease!',
-      unlockRequirement: 'Complete Measurement Scale quest'
-    },
-    {
-      id: 'sticker_bulb',
-      name: 'Circuit Sorcerer',
-      emoji: '💡',
-      description: 'You built a working closed circuit, lighting up the beach beacon to guide lost ships!',
-      unlockRequirement: 'Complete Circuit Light Up quest'
-    },
-    {
-      id: 'sticker_shadow',
-      name: 'Shadow Weaver',
-      emoji: '👤',
-      description: 'You manipulated the height and angle of the sun, predicting shadows with light travel science!',
-      unlockRequirement: 'Complete Shadow Lab quest'
-    },
-    {
-      id: 'sticker_flask',
-      name: 'Material Alchemist',
-      emoji: '🧪',
-      description: 'You know which materials dissolve and which conduct, classifying metals, salt, and sand!',
-      unlockRequirement: 'Complete Material Lab Sorter quest'
-    },
+    ...QUESTS.map(q => ({
+      id: q.stickerId,
+      name: q.stickerName,
+      emoji: q.stickerEmoji,
+      description: `Earned by completing "${q.title}" — ${q.topic}.`,
+      unlockRequirement: `Score 70%+ on ${q.title}`
+    })),
     {
       id: 'badge_english_master',
       name: 'English Cove Master',
       emoji: '🏆',
-      description: 'Mastered all quests in English Cove. You are a sovereign of the English language!',
-      unlockRequirement: 'Master all 3 English quests'
+      description: 'Reached the Good standard across every English Cove topic. A true master of the English language!',
+      unlockRequirement: 'Master every English quest'
     },
     {
       id: 'badge_math_master',
       name: 'Math Peaks Master',
       emoji: '👑',
-      description: 'Mastered all quests on Math Peaks. You have conquered the mountains of calculation!',
-      unlockRequirement: 'Master all 3 Math quests'
+      description: 'Reached the Good standard across every Math Peaks topic. You have conquered the mountains of calculation!',
+      unlockRequirement: 'Master every Math quest'
     },
     {
       id: 'badge_science_master',
       name: 'Science Lagoon Master',
-      emoji: '🧪',
-      description: 'Mastered all quests in Science Lagoon. You understand the secrets of physical sciences!',
-      unlockRequirement: 'Master all 3 Science quests'
+      emoji: '🔬',
+      description: 'Reached the Good standard across every Science Lagoon topic. You understand the secrets of science!',
+      unlockRequirement: 'Master every Science quest'
     }
   ];
 

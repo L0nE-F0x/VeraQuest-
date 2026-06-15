@@ -6,6 +6,7 @@ import { StickerBook } from './components/StickerBook';
 import { DailyChest } from './components/DailyChest';
 import { QuestOverlay } from './components/QuestOverlay';
 import { Certificate } from './components/Certificate';
+import { PaperPractice } from './components/PaperPractice';
 import { QUESTS } from './data/topics';
 import { sounds } from './utils/sounds';
 
@@ -43,11 +44,11 @@ class AppController {
         </div>
 
         <div style="margin-bottom:40px; display:flex; flex-direction:column; gap:16px; align-items:center;">
-          <p style="font-size:0.95rem; font-weight:600; max-width:280px; color:var(--color-text-muted); line-height:1.5;">
-            Join Lumi on a tropical holiday adventure and prepare for your Entrance Test prep with fun quests!
+          <p style="font-size:0.95rem; font-weight:600; max-width:300px; color:var(--color-text-muted); line-height:1.55;">
+            Hi Vera! These island quests cover the Cambridge <strong>Stage 5</strong> topics in English, Math and Science for your Grade 6 retake. Each one teaches the idea first, then lets you practise. Learn a little every day — you've got this. 🌱
           </p>
           <button id="btn-start-voyage" class="splash-start-btn">
-            Begin Voyage!
+            Start Studying
           </button>
         </div>
       </div>
@@ -104,7 +105,7 @@ class AppController {
 
     // Instantiate Screens
     this.islandMap = new IslandMap(container, (questId) => this.startQuest(questId));
-    new ExplorerDashboard(container, () => this.showCertificate());
+    new ExplorerDashboard(container, () => this.showCertificate(), () => this.showPaperPractice());
     new StickerBook(container);
     new DailyChest(container);
 
@@ -186,6 +187,12 @@ class AppController {
 
   private showCertificate() {
     new Certificate(this.root, () => {
+      this.switchScreen('screen-dashboard');
+    });
+  }
+
+  private showPaperPractice() {
+    new PaperPractice(this.root, () => {
       this.switchScreen('screen-dashboard');
     });
   }
