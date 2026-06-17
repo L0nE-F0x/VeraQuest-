@@ -45,8 +45,9 @@ body {
   font-family: var(--font-primary);
   background-color: var(--color-sand);
   color: var(--color-text);
-  overflow-x: hidden;
-  height: 100vh;
+  overflow: hidden;
+  height: 100vh; /* fallback */
+  height: 100dvh; /* fits the visible viewport on mobile (excludes browser chrome) */
   display: flex;
   flex-direction: column;
 }
@@ -133,14 +134,14 @@ button:active {
   background: linear-gradient(180deg, #BAE6FD 0%, #F5F3FF 70%, #FAF7F2 100%);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
-  padding: 40px 24px;
+  padding: 24px 24px;
   text-align: center;
 }
 
 .splash-logo-container {
-  margin-top: 60px;
+  margin-top: 8px;
 }
 
 .splash-title {
@@ -156,9 +157,10 @@ button:active {
 }
 
 .splash-island {
-  width: 280px;
+  width: 220px;
+  max-width: 60%;
   height: auto;
-  margin: 20px 0;
+  margin: 8px 0;
   filter: drop-shadow(0 10px 15px rgba(2, 132, 199, 0.15));
 }
 
@@ -229,7 +231,9 @@ button:active {
   position: relative;
   flex: 1;
   width: 100%;
-  background: linear-gradient(180deg, #E0F2FE 0%, #BAE6FD 100%);
+  /* Sky-to-sea gradient so the letterbox bands around the square map art
+     blend into one continuous ocean scene instead of a floating rectangle. */
+  background: linear-gradient(180deg, #CDEBFF 0%, #BAE6FD 24%, #7DD3FC 30%, #33B6F2 55%, #0C8FD6 100%);
   overflow: hidden;
 }
 
@@ -437,21 +441,24 @@ button:active {
 
 .companion-bubble {
   position: absolute;
-  bottom: 85px;
-  right: 10px;
+  /* Sit ABOVE Lumi (who is 80px tall at bottom:84px) so they never overlap */
+  bottom: 176px;
+  right: 12px;
   background: white;
-  border: 2px solid var(--color-teal);
-  border-radius: 16px;
+  border: 3px solid var(--color-teal);
+  border-radius: 20px;
   padding: 12px 16px;
-  max-width: 220px;
+  max-width: 230px;
   font-size: 0.85rem;
   font-weight: 600;
+  line-height: 1.35;
   box-shadow: var(--shadow-md);
   opacity: 0;
   transform: scale(0.8) translateY(10px);
   transform-origin: bottom right;
   transition: var(--transition-bouncy);
   pointer-events: auto;
+  z-index: 90;
 }
 
 .companion-bubble-visible {
@@ -459,12 +466,13 @@ button:active {
   transform: scale(1) translateY(0);
 }
 
+/* Comic-book speech tail pointing down toward Lumi */
 .companion-bubble::after {
   content: '';
   position: absolute;
-  bottom: -10px;
-  right: 28px;
-  border-width: 10px 10px 0;
+  bottom: -14px;
+  right: 30px;
+  border-width: 15px 12px 0;
   border-style: solid;
   border-color: white transparent;
   display: block;
@@ -474,9 +482,9 @@ button:active {
 .companion-bubble::before {
   content: '';
   position: absolute;
-  bottom: -13px;
-  right: 27px;
-  border-width: 11px 11px 0;
+  bottom: -19px;
+  right: 28px;
+  border-width: 18px 14px 0;
   border-style: solid;
   border-color: var(--color-teal) transparent;
   display: block;

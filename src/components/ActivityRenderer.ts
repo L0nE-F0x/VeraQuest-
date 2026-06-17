@@ -41,6 +41,7 @@ export class ActivityRenderer {
   // Quiz state
   private selectedOption: number | null = null;
   private quizRevealed: boolean = false;
+  private quizCorrectIndex: number = 0; // correct index AFTER options are shuffled
 
   constructor(parent: HTMLElement) {
     this.container = document.createElement('div');
@@ -70,6 +71,7 @@ export class ActivityRenderer {
     this.materialPlacements = {};
     this.selectedOption = null;
     this.quizRevealed = false;
+    this.quizCorrectIndex = 0;
 
     switch (quest.type) {
       case 'quiz':
@@ -110,12 +112,23 @@ export class ActivityRenderer {
   // ================= QUIZ (multiple choice) =================
   private renderQuiz(c: any) {
     const labels = ['A', 'B', 'C', 'D', 'E', 'F'];
+
+    // Shuffle the options so the correct answer isn't always first in the list.
+    // We pair each option with its original index, shuffle, then remember where
+    // the correct answer (c.correctIndex) ended up.
+    const shuffled = c.options.map((opt: string, origIdx: number) => ({ opt, origIdx }));
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    this.quizCorrectIndex = shuffled.findIndex((s: any) => s.origIdx === c.correctIndex);
+
     let html = `<div class="quiz-options" id="quiz-options">`;
-    c.options.forEach((opt: string, idx: number) => {
+    shuffled.forEach((item: any, idx: number) => {
       html += `
         <button class="quiz-option" data-opt="${idx}">
           <span class="quiz-option-letter">${labels[idx]}</span>
-          <span class="quiz-option-text">${opt}</span>
+          <span class="quiz-option-text">${item.opt}</span>
         </button>
       `;
     });
@@ -953,7 +966,7 @@ export class ActivityRenderer {
           feedback = "Tap one of the answers first, then check it.";
           break;
         }
-        correct = this.selectedOption === c.correctIndex;
+        correct = this.selectedOption === this.quizCorrectIndex;
         score = correct ? 100 : 0;
         const chosenEl = optionEls[this.selectedOption];
         if (correct) {

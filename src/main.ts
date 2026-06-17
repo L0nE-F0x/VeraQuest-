@@ -43,7 +43,7 @@ class AppController {
           </svg>
         </div>
 
-        <div style="margin-bottom:40px; display:flex; flex-direction:column; gap:16px; align-items:center;">
+        <div style="margin-bottom:8px; display:flex; flex-direction:column; gap:16px; align-items:center;">
           <p style="font-size:0.95rem; font-weight:600; max-width:300px; color:var(--color-text-muted); line-height:1.55;">
             Hi Vera! These island quests cover the Cambridge <strong>Stage 5</strong> topics in English, Math and Science for your Grade 6 retake. Each one teaches the idea first, then lets you practise. Learn a little every day — you've got this. 🌱
           </p>
