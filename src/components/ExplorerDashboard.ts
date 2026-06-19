@@ -1,6 +1,6 @@
 import { gameState } from '../game/state';
 import { sounds } from '../utils/sounds';
-import { QUESTS } from '../data/topics';
+import { QUESTS, CURRICULUM_SOURCES } from '../data/topics';
 
 const SUBJECTS: { key: 'english' | 'math' | 'science'; label: string; place: string; color: string }[] = [
   { key: 'english', label: 'English', place: 'English Cove', color: 'var(--color-coral)' },
@@ -124,6 +124,26 @@ export class ExplorerDashboard {
           A topic counts as mastered once you score 70%+ (the Good standard). Tap a subject location on the Map to practise it.
         </p>
         ${SUBJECTS.map(s => this.renderSubjectChecklist(s, state)).join('')}
+      </div>
+
+      <!-- Curriculum sources (for parents) -->
+      <div class="sources-container">
+        <h3 class="sources-title">📚 What this is based on</h3>
+        <p class="sources-intro">
+          Every quest is built from the exact Cambridge Primary materials the school sent for Vera's re-test — confirmed for all three subjects. Tap a framework to open the official PDF.
+        </p>
+        ${CURRICULUM_SOURCES.map(src => `
+          <div class="source-card" style="border-left-color:${src.color};">
+            <div class="source-card-head">
+              <strong>${src.place}</strong>
+              <span class="source-pages">${src.pages}</span>
+            </div>
+            <a class="source-link" href="${src.url}" target="_blank" rel="noopener noreferrer">${src.framework} ↗</a>
+            ${src.referencePaper
+              ? `<div class="source-ref"><span class="source-ref-label">Reference papers</span> ${src.referencePaper}</div>`
+              : ''}
+          </div>
+        `).join('')}
       </div>
 
       <!-- Settings -->

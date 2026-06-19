@@ -1894,6 +1894,72 @@ button:active {
   color: var(--color-text-muted);
 }
 
+/* ================= CURRICULUM SOURCES (for parents) ================= */
+.sources-container {
+  background: white;
+  border-radius: var(--border-radius-md);
+  padding: 20px;
+  margin: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.sources-title {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: var(--color-text);
+}
+.sources-intro {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  margin-bottom: 14px;
+}
+.source-card {
+  background: var(--color-sand);
+  border-left: 4px solid var(--color-teal);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+}
+.source-card:last-child { margin-bottom: 0; }
+.source-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+.source-card-head strong { font-size: 0.92rem; color: var(--color-text); }
+.source-pages {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+.source-link {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: var(--color-teal-dark);
+  font-weight: 600;
+  text-decoration: none;
+  word-break: break-word;
+}
+.source-link:hover { text-decoration: underline; }
+.source-ref {
+  margin-top: 6px;
+  font-size: 0.74rem;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+.source-ref-label {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
+  margin-right: 4px;
+}
+
 /* ================= PAPER PRACTICE (on-screen preview) ================= */
 .paper-practice-screen { padding-bottom: 24px; }
 .paper-preview {

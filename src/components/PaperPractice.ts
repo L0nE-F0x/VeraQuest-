@@ -91,7 +91,7 @@ export class PaperPractice {
         <!-- ============ MATHEMATICS ============ -->
         <section class="ws-section">
           <h2>Part 3 · Mathematics</h2>
-          <p class="ws-instr">Show your working in the space beside each question.</p>
+          <p class="ws-instr">Aligned to Cambridge Primary Mathematics 0096, Stage 5 (pp. 27&ndash;29). Re-test reference: Paper 2, Cambridge Primary Progression Test Stage 5. Show your working in the space beside each question.</p>
           <ol class="ws-questions ws-math">
             <li>Write the value of the digit <strong>3</strong> in the number <strong>5.32</strong>.${this.lines(1)}</li>
             <li>Calculate: <strong>5 + 4 &times; 2 = </strong>${this.lines(1)}</li>
@@ -109,7 +109,7 @@ export class PaperPractice {
         <!-- ============ SCIENCE ============ -->
         <section class="ws-section">
           <h2>Part 4 · Science</h2>
-          <p class="ws-instr">Answer in short, clear sentences.</p>
+          <p class="ws-instr">Aligned to Cambridge Primary Science 0097, Stage 5 (pp. 24&ndash;26). Re-test reference: Paper 1, Cambridge Primary Checkpoint Science. Answer in short, clear sentences.</p>
           <ol class="ws-questions">
             <li>Name <strong>two</strong> forces that can slow down a moving object.${this.lines(1)}</li>
             <li>How is a sound made?${this.lines(1)}</li>

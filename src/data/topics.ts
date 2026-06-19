@@ -3,10 +3,17 @@
  * Content aligned to the Cambridge Primary curriculum, STAGE 5 — the level assessed
  * by the Cambridge Primary Progression Test Stage 5 used for the Grade 6 entrance test.
  *
- * Sources (official Cambridge International curriculum frameworks):
- *   • English 0058  — Stage 5 learning objectives, pp. 35–40 (the exact pages the school referenced)
+ * Sources (official Cambridge International curriculum frameworks — the exact
+ * documents and page ranges the school sent for the re-test, now confirmed for
+ * all three subjects):
+ *   • English 0058  — Stage 5 learning objectives, pp. 35–40
  *   • Mathematics 0096 — Stage 5 learning objectives, pp. 27–29
+ *                        Reference papers: Paper 2, Cambridge Primary Progression Test Stage 5 (Maths)
  *   • Science 0097  — Stage 5 learning objectives, pp. 24–26
+ *                        Reference papers: Paper 1, Cambridge Primary Checkpoint (Science)
+ *
+ * The exact links and page ranges are kept in CURRICULUM_SOURCES (below) so they
+ * can be shown to a parent inside the app's Study Log.
  *
  * Each quest is tagged with the Cambridge objective code(s) it practises, a short
  * `studyNote` that teaches the idea first, and questions written at Stage 5 standard.
@@ -1855,4 +1862,57 @@ export const QUESTS: BaseQuest[] = [
       }
     ]
   }
+];
+
+/**
+ * The official curriculum materials the school sent for the Grade 6 entrance
+ * re-test. Surfaced to parents in the Study Log so they can see exactly which
+ * pages and reference papers VeraQuest's content is built from.
+ */
+export interface CurriculumSource {
+  subject: 'english' | 'math' | 'science';
+  label: string;
+  place: string;
+  /** Accent colour (matches the subject's map location). */
+  color: string;
+  /** Official Cambridge framework name + code. */
+  framework: string;
+  /** The exact page range the school cited. */
+  pages: string;
+  /** Direct link to the framework PDF. */
+  url: string;
+  /** The reference past-paper the school named (if any). */
+  referencePaper?: string;
+}
+
+export const CURRICULUM_SOURCES: CurriculumSource[] = [
+  {
+    subject: 'english',
+    label: 'English',
+    place: 'English Cove',
+    color: 'var(--color-coral)',
+    framework: 'Cambridge Primary English 0058',
+    pages: 'Stage 5 · pp. 35–40',
+    url: 'https://static1.squarespace.com/static/59edc421bff200ece07aaea0/t/60dad8440bfa8e5dd66dbdec/1624954952253/English+Curriculum+Framework+0058.pdf',
+  },
+  {
+    subject: 'math',
+    label: 'Mathematics',
+    place: 'Math Peaks',
+    color: 'var(--color-gold-dark)',
+    framework: 'Cambridge Primary Mathematics 0096',
+    pages: 'Stage 5 · pp. 27–29',
+    url: 'https://static1.squarespace.com/static/59edc421bff200ece07aaea0/t/60dad862f37caa053cab5d23/1624954979966/Cambridge+Primary+Mathematics+Curriculum+Framework+0096_tcm142-592530.pdf',
+    referencePaper: 'Paper 2 · Cambridge Primary Progression Test, Stage 5',
+  },
+  {
+    subject: 'science',
+    label: 'Science',
+    place: 'Science Lagoon',
+    color: 'var(--color-teal)',
+    framework: 'Cambridge Primary Science 0097',
+    pages: 'Stage 5 · pp. 24–26',
+    url: 'https://www.pea.ae/linkfiles/Science-Curriculum-Framework0097_tcm142-592534.pdf',
+    referencePaper: 'Paper 1 · Cambridge Primary Checkpoint Science',
+  },
 ];
